@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 # Install the Node / Flutter / Java versions used across machines.
 # Idempotent: already-installed versions are skipped. Edit a list and re-apply
 # (chezmoi re-runs this because it's run_onchange) to add a new version.
@@ -27,26 +28,16 @@ else
   echo "==> fvm not found; skipping Flutter"
 fi
 
-# ---------- Java (sdkman) ----------
-JAVA_DEFAULT="17.0.16-tem"
-JAVA_OTHERS=""
-export SDKMAN_DIR="$HOME/.sdkman"
-if [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
-  echo "==> Java (sdkman)"
-  . "$SDKMAN_DIR/bin/sdkman-init.sh"
-  sdk install java "$JAVA_DEFAULT" >/dev/null 2>&1 && echo "  java $JAVA_DEFAULT"
-  for v in $JAVA_OTHERS; do echo no | sdk install java "$v" >/dev/null 2>&1 && echo "  java $v"; done
-  sdk default java "$JAVA_DEFAULT" >/dev/null 2>&1
-else
-  echo "==> sdkman not found; skipping Java"
-fi
-
 echo "==> language runtimes ready"
 
 
 # -- coc nvim
 echo "==> Installing/Updating coc.nvim extensions..."
 
-if [ -d "$HOME/.config/coc/extensions"]; then
-    cd "$HOME/.config/coc/extensions" && npm install --no-audit --no-fund --quiet
+if [ -d "$HOME/.config/coc/extensions" ]; then
+    (
+        cd "$HOME/.config/coc/extensions" &&
+        npm install --no-audit --no-fund --quiet
+    )
 fi
+
