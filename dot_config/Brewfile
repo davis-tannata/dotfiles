@@ -13,6 +13,8 @@ brew "bat"
 brew "btop"
 # Powerful, enterprise-ready, open source web server with automatic HTTPS
 brew "caddy"
+# Manage your dotfiles across multiple diverse machines, securely
+brew "chezmoi"
 # Utility for connecting securely to your Cloud SQL instances
 brew "cloud-sql-proxy"
 # Container runtimes on MacOS (and Linux) with minimal setup
