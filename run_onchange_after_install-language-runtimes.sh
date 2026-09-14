@@ -7,12 +7,19 @@
 # ---------- Node (nvm) ----------
 NODE_VERSIONS="18.20.4 20.20.0 22.22.2"
 NODE_DEFAULT="20"
+# Global npm packages, installed on the default node (npm skips ones already present).
+NPM_GLOBALS="pnpm corepack vercel eas-cli firebase-tools oxlint @oxlint/binding-darwin-arm64 @typescript/native-preview"
 export NVM_DIR="$HOME/.nvm"
 if [ -s "$NVM_DIR/nvm.sh" ]; then
   echo "==> Node (nvm)"
   . "$NVM_DIR/nvm.sh"
   for v in $NODE_VERSIONS; do nvm install "$v" >/dev/null 2>&1 && echo "  node $v"; done
   nvm alias default "$NODE_DEFAULT" >/dev/null 2>&1
+  nvm use default >/dev/null 2>&1
+  if [ -n "$NPM_GLOBALS" ]; then
+    echo "  npm -g: $NPM_GLOBALS"
+    npm install -g $NPM_GLOBALS >/dev/null 2>&1
+  fi
 else
   echo "==> nvm not found; skipping Node"
 fi
@@ -34,7 +41,7 @@ echo "==> language runtimes ready"
 # -- coc nvim
 echo "==> Installing/Updating coc.nvim extensions..."
 
-if [ -d "$HOME/.config/coc/extensions" ]; then
+if [ -d "$HOME/.config/coc/extensions" ] && command -v npm >/dev/null 2>&1; then
     (
         cd "$HOME/.config/coc/extensions" &&
         npm install --no-audit --no-fund --quiet

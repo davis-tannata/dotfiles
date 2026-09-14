@@ -102,14 +102,6 @@ cask "hammerspoon"
 cask "linearmouse"
 # Open-source cross-platform alternative to AirDrop
 cask "localsend"
-npm "@oxlint/binding-darwin-arm64"
-npm "@typescript/native-preview"
-npm "corepack"
-npm "eas-cli"
-npm "firebase-tools"
-npm "oxlint"
-npm "pnpm"
-npm "vercel"
 tap "anomalyco/tap", trusted: true
 tap "leoafarias/fvm", trusted: true
 tap "pulumi/tap", trusted: true
