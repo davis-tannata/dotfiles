@@ -1,12 +1,5 @@
-tap "anomalyco/tap"
-tap "homebrew/services"
-tap "leoafarias/fvm"
-tap "pulumi/tap"
-tap "stripe/stripe-cli"
 # Tool for generating GNU Standards-compliant Makefiles
 brew "automake"
-# Cryptography and SSL/TLS Toolkit
-brew "openssl@3"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
@@ -94,8 +87,6 @@ cask "bruno"
 cask "claude-code"
 # Developer platform
 cask "dotnet-sdk"
-# Screenshot software with built-in annotation tools
-cask "flameshot"
 cask "font-iosevka"
 cask "font-iosevka-nerd-font"
 cask "font-iosevka-term-nerd-font"
@@ -109,7 +100,6 @@ cask "hammerspoon"
 cask "linearmouse"
 # Open-source cross-platform alternative to AirDrop
 cask "localsend"
-go "golang.org/x/website/tour"
 npm "@oxlint/binding-darwin-arm64"
 npm "@typescript/native-preview"
 npm "corepack"
@@ -118,3 +108,8 @@ npm "firebase-tools"
 npm "oxlint"
 npm "pnpm"
 npm "vercel"
+tap "anomalyco/tap"
+tap "homebrew/services"
+tap "leoafarias/fvm"
+tap "pulumi/tap"
+tap "stripe/stripe-cli"
