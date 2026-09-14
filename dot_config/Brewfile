@@ -73,6 +73,8 @@ brew "ripgrep"
 brew "rtk"
 # Terminal multiplexer
 brew "tmux"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
 # Watch files and take action when they change
 brew "watchman"
 # General-purpose lossless data-compression library
