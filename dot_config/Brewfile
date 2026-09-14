@@ -110,7 +110,7 @@ npm "firebase-tools"
 npm "oxlint"
 npm "pnpm"
 npm "vercel"
-tap "anomalyco/tap"
-tap "leoafarias/fvm"
-tap "pulumi/tap"
-tap "stripe/stripe-cli"
+tap "anomalyco/tap", trusted: true
+tap "leoafarias/fvm", trusted: true
+tap "pulumi/tap", trusted: true
+tap "stripe/stripe-cli", trusted: true
