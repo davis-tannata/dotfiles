@@ -1,0 +1,14 @@
+{
+  "coc.preferences.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "flutter.fvm.enabled": true,
+  "flutter.sdk.searchPaths": ["~/fvm/versions"],
+  "flutter.sdk.path": "~/fvm/versions",
+  "flutter.autoOpenDevLog": true,
+  "flutter.autoHideDevLog": false,
+  "tsserver.enable": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "html.format.enable": true
+}
