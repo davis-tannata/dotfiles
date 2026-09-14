@@ -42,6 +42,19 @@ bindkey -s '^f' 'tmux-sessionizer\n'
 # === TMUX window renaming ===
 if [[ -n "$TMUX" ]]; then
   autoload -Uz add-zsh-hook
-  _tmux_rename_window_preexec() { tmux rename-window -- "${1:0:20}" }
+  _tmux_rename_window_preexec() {
+    local cmd="$1"
+    local window_name
+
+    if [[ "$cmd" =~ ^claude ]]; then
+      # Extract argument after 'claude' (e.g., 'claude --resume' -> 'resume')
+      window_name=$(echo "$cmd" | sed -E 's/^claude[[:space:]]*(-[a-z-]*)?[[:space:]]*//' | cut -c1-20)
+      [[ -z "$window_name" ]] && window_name="claude"
+    else
+      window_name="${cmd:0:20}"
+    fi
+
+    tmux rename-window -- "$window_name"
+  }
   add-zsh-hook preexec _tmux_rename_window_preexec
 fi

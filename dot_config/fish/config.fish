@@ -51,7 +51,20 @@ if status is-interactive
     # === TMUX window renaming ===
     if set -q TMUX
         function __tmux_rename_window --on-event fish_preexec
-            tmux rename-window -- (string sub -l 20 -- $argv[1])
+            set -l cmd $argv[1]
+            set -l window_name
+
+            if string match -q 'claude*' $cmd
+                # Extract argument after 'claude' (e.g., 'claude --resume' -> 'resume')
+                set window_name (string replace -r '^claude\s*(-[a-z-]*)?\s*' '' $cmd | string sub -l 20)
+                if test -z "$window_name"
+                    set window_name "claude"
+                end
+            else
+                set window_name (string sub -l 20 -- $cmd)
+            end
+
+            tmux rename-window -- $window_name
         end
     end
 end
