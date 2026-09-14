@@ -47,8 +47,6 @@ brew "libksba"
 brew "gnupg"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
-# Post-modern modal text editor
-brew "helix"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Simple terminal UI for git commands
@@ -75,24 +73,17 @@ brew "postgresql@14"
 brew "presenterm"
 # Python version management
 brew "pyenv"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.12"
+brew "fvm"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # CLI proxy to minimize LLM token consumption
 brew "rtk"
-# OCR (Optical Character Recognition) engine
-brew "tesseract"
 # Terminal multiplexer
 brew "tmux"
 # Watch files and take action when they change
 brew "watchman"
-# Blazing fast terminal file manager written in Rust, based on async I/O
-brew "yazi"
 # General-purpose lossless data-compression library
 brew "zlib"
-# The AI coding agent built for the terminal.
-brew "anomalyco/tap/opencode", trusted: true
 # GPU-accelerated terminal emulator
 cask "alacritty"
 # Audio utility
@@ -101,8 +92,6 @@ cask "background-music"
 cask "bruno"
 # Terminal-based AI coding assistant
 cask "claude-code"
-# OpenAI's coding agent that runs in your terminal
-cask "codex"
 # Developer platform
 cask "dotnet-sdk"
 # Screenshot software with built-in annotation tools
@@ -114,18 +103,12 @@ cask "font-iosevka-term-slab-nerd-font"
 cask "font-monaspace"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "gcloud-cli"
-# Terminal emulator that uses platform-native UI and GPU acceleration
-cask "ghostty"
 # Desktop automation application
 cask "hammerspoon"
-# Animated screen capture application
-cask "licecap"
 # Customise mouse behavior
 cask "linearmouse"
 # Open-source cross-platform alternative to AirDrop
 cask "localsend"
-# Open-source software for live streaming and screen recording
-cask "obs"
 go "golang.org/x/website/tour"
 npm "@oxlint/binding-darwin-arm64"
 npm "@typescript/native-preview"
