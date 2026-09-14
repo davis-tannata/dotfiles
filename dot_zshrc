@@ -1,0 +1,47 @@
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+PATH=${PATH}:/opt/homebrew/bin
+PATH=${PATH}:$HOME/development/flutter/bin
+PATH=${PATH}:$HOME/.gem/bin
+PATH=${PATH}:$HOME/.pub-cache/bin
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/davistannata/.dart-cli-completion/zsh-config.zsh ]] && . /Users/davistannata/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
+
+# FVM
+export PATH="/Users/davistannata/.fvm_flutter/bin:$PATH"
+export PATH="$HOME/.fvm_flutter/bin:$PATH"
+
+# Add your local scripts directory to PATH
+PATH="$PATH:$HOME/.local/scripts"
+
+# Bind Ctrl+F to run tmux-sessionizer
+bindkey -s '^f' 'tmux-sessionizer\n'
+
+alias flutter="fvm flutter"
+alias dart="fvm dart"
+
+
+. "$HOME/.local/bin/env"
+
+# rename tmux window to the last command run (e.g. nvim, flutter run, claude)
+if [[ -n "$TMUX" ]]; then
+  autoload -Uz add-zsh-hook
+  _tmux_rename_window_preexec() { tmux rename-window -- "${1:0:20}" }
+  add-zsh-hook preexec _tmux_rename_window_preexec
+fi
