@@ -1,0 +1,117 @@
+{
+  "model": "haiku",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/scripts/claude-agent-state working"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/scripts/claude-agent-state working"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/scripts/claude-agent-state working"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/scripts/claude-agent-state idle </dev/null"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/scripts/claude-agent-state end </dev/null"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/scripts/claude-agent-state waiting"
+          },
+          {
+            "type": "command",
+            "command": "msg=$(jq -r '.message // \"Claude needs your attention\"'); s=$(tmux display-message -p '#S' 2>/dev/null); terminal-notifier -title \"Claude ${s:+[$s]}\" -message \"$msg\" -activate org.alacritty -sound Glass 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/scripts/claude-agent-state done"
+          },
+          {
+            "type": "command",
+            "command": "s=$(tmux display-message -pt \"$TMUX_PANE\" '#S' 2>/dev/null); vis=$(tmux display-message -pt \"$TMUX_PANE\" '#{?#{&&:#{session_attached},#{&&:#{window_active},#{pane_active}}},1,0}' 2>/dev/null); if [ \"$vis\" != \"1\" ]; then terminal-notifier -title \"Claude ${s:+[$s]}\" -message \"Agent finished\" -activate org.alacritty -sound Glass; fi 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/scripts/claude-agent-state done"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "echo \"$(whoami)@$(hostname -s) $(basename \"$(pwd)\") $(if [ \"$(id -u)\" -eq 0 ]; then echo '#'; else echo '%'; fi)\""
+  },
+  "enabledPlugins": {
+    "figma@claude-plugins-official": true,
+    "frontend-design@claude-code-plugins": true,
+    "vercel@claude-plugins-official": true
+  },
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark-ansi"
+}

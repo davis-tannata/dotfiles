@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Detailed, always-refreshing sidebar view of all Claude agents.
+# Meant to run inside a narrow tmux pane:  prefix + a  (see ~/.tmux.conf)
+
+dir="/tmp/claude-agents"
+
+while true; do
+  clear
+  printf '\033[1m CLAUDE AGENTS\033[0m  \033[2m%s\033[0m\n' "$(date +%H:%M:%S)"
+  printf ' \033[2m─────────────────────────\033[0m\n'
+
+  now=$(date +%s)
+  any=0
+
+  if [ -d "$dir" ]; then
+    for f in "$dir"/*.state; do
+      [ -e "$f" ] || continue
+      IFS=$'\t' read -r state action ts sess winid winidx < "$f"
+      any=1
+
+      el=$(( now - ${ts:-$now} ))
+      elapsed=$(printf '%d:%02d' $((el / 60)) $((el % 60)))
+
+      case "$state" in
+        working) dot='\033[33m●\033[0m'; st='working' ;;
+        waiting) dot='\033[31;1m●\033[0m'; st='WAITING' ;;
+        done)    dot='\033[32m●\033[0m'; st='done' ;;
+        *)       dot='\033[34m●\033[0m'; st='ready' ;;
+      esac
+
+      printf '\n %b \033[1m%s\033[0m \033[2m%s\033[0m\n' "$dot" "$st" "$elapsed"
+      printf '   %s\n' "${sess:0:30}"
+      printf '   \033[2m%s\033[0m\n' "${action:0:30}"
+    done
+  fi
+
+  [ "$any" = 0 ] && printf '\n \033[2mno active agents\033[0m\n'
+
+  sleep 2
+done

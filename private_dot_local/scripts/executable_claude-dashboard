@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Compact one-line summary of all Claude agents, for the tmux status-right.
+# Emits tmux style sequences (#[...]) that tmux interprets in status output.
+# Also acts as a poller: a "working" agent quiet for longer than STALE_SECS is
+# really idle (finished-without-Stop, or interrupted with Esc), so it is aged
+# into "your turn" (background) or "done" (the pane you're on).
+
+STALE_SECS=15
+
+dir="/tmp/claude-agents"
+[ -d "$dir" ] || exit 0
+
+now=$(date +%s)
+out=""
+n=0
+
+for f in "$dir"/*.state; do
+  [ -e "$f" ] || continue
+  IFS=$'\t' read -r state action ts sess winid winidx < "$f"
+
+  # Prune agents with no update for 2h (dead session that never sent 'end').
+  if [ -n "$ts" ] && [ $((now - ts)) -gt 7200 ]; then
+    rm -f "$f"
+    [ -n "$winid" ] && tmux set-window-option -t "$winid" -u @claude_state 2>/dev/null
+    continue
+  fi
+
+  # Age a quiet "working" agent into an idle state (catches interrupts).
+  if [ "$state" = "working" ] && [ -n "$ts" ] && [ $((now - ts)) -ge "$STALE_SECS" ]; then
+    vis=0
+    [ -n "$winid" ] && vis=$(tmux display-message -pt "$winid" '#{?#{&&:#{session_attached},#{&&:#{window_active},#{pane_active}}},1,0}' 2>/dev/null)
+    if [ "$vis" = "1" ]; then state="done"; action="done"; else state="waiting"; action="your turn"; fi
+    printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$state" "$action" "$now" "$sess" "$winid" "$winidx" > "$f"
+    [ -n "$winid" ] && tmux set-window-option -t "$winid" @claude_state "$state" 2>/dev/null
+  fi
+
+  n=$((n + 1))
+  case "$state" in
+    working) icon="#[fg=yellow]⏳" ;;
+    waiting) icon="#[fg=red,bold]🔴" ;;
+    done)    icon="#[fg=green]✅" ;;
+    *)       icon="#[fg=blue]•" ;;
+  esac
+
+  # Label = the session title (claude --resume summary). Disambiguate the
+  # fallback case (several agents sharing a project name) with the window index.
+  lbl="${sess:0:18}"
+  if [ -n "$winidx" ] && [ "$(cut -f4 "$dir"/*.state 2>/dev/null | grep -Fxc "$sess")" -gt 1 ]; then
+    lbl="${sess:0:15}.$winidx"
+  fi
+
+  out="$out $icon#[default]$lbl"
+done
+
+[ "$n" -gt 0 ] && printf '%s ' "$out"
