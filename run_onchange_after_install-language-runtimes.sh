@@ -42,3 +42,11 @@ else
 fi
 
 echo "==> language runtimes ready"
+
+
+# -- coc nvim
+echo "==> Installing/Updating coc.nvim extensions..."
+
+if [ -d "$HOME/.config/coc/extensions"]; then
+    cd "$HOME/.config/coc/extensions" && npm install --no-audit --no-fund --quiet
+fi
