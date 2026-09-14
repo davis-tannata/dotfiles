@@ -4,7 +4,7 @@
 # (chezmoi re-runs this because it's run_onchange) to add a new version.
 
 # ---------- Node (nvm) ----------
-NODE_VERSIONS="16.20.2 18.20.4 20.18.0 20.20.0 22.22.2"
+NODE_VERSIONS="18.20.4 20.20.0 22.22.2"
 NODE_DEFAULT="20"
 export NVM_DIR="$HOME/.nvm"
 if [ -s "$NVM_DIR/nvm.sh" ]; then
@@ -17,7 +17,7 @@ else
 fi
 
 # ---------- Flutter (fvm) ----------
-FLUTTER_VERSIONS="3.24.3 3.19.6"
+FLUTTER_VERSIONS="3.24.3"
 FLUTTER_GLOBAL="3.24.3"
 if command -v fvm >/dev/null 2>&1; then
   echo "==> Flutter (fvm)"
@@ -29,7 +29,7 @@ fi
 
 # ---------- Java (sdkman) ----------
 JAVA_DEFAULT="17.0.16-tem"
-JAVA_OTHERS="17.0.12-amzn 17.0.12-oracle"
+JAVA_OTHERS=""
 export SDKMAN_DIR="$HOME/.sdkman"
 if [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
   echo "==> Java (sdkman)"
