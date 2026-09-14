@@ -1,0 +1,34 @@
+---
+customCommands:
+  - key: F
+    command: git fetch --prune
+    context: files
+    stream: true
+    description: Git fetch with prune
+  - key: <c-n>
+    context: global
+    command: nvim .
+    subprocess: true
+gui:
+  showNumstatInFilesView: true
+  scrollPastBottom: false
+  scrollHeight: 24
+  scrollOffMargin: 8
+  nerdFontsVersion: "3"
+  theme:
+    activeBorderColor: ["#f9e2af", bold]
+    inactiveBorderColor: ["#a6adc8"]
+    optionsTextColor: ["#89b4fa"]
+    selectedLineBgColor: ["#313244"]
+    cherryPickedCommitBgColor: ["#45475a"]
+    cherryPickedCommitFgColor: ["#f9e2af"]
+    unstagedChangesColor: ["#f38ba8"]
+    defaultFgColor: ["#cdd6f4"]
+    searchingActiveBorderColor: ["#f9e2af"]
+  authorColors:
+    "*": "#b4befe"
+os:
+  editPreset: nvim-remote
+  edit: nvim --server $NVIM --remote-send '<cmd>close<cr><cmd>lua EditFromLazygit({{filename}})<CR>'
+  editAtLine: nvim --server $NVIM --remote-send '<cmd>close<CR><cmd>lua EditLineFromLazygit({{filename}},{{line}})<CR>'
+promptToReturnFromSubprocess: false

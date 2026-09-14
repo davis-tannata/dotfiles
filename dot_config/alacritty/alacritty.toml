@@ -1,0 +1,7 @@
+
+[font.normal]
+family = "Iosevka Term"
+
+[terminal.shell]
+program = "/opt/homebrew/bin/fish"
+
