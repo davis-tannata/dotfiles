@@ -7,8 +7,8 @@
 # ---------- Node (nvm) ----------
 NODE_VERSIONS="18.20.4 20.20.0 22.22.2"
 NODE_DEFAULT="20"
-# Global npm packages, installed on the default node (npm skips ones already present).
-NPM_GLOBALS="pnpm corepack vercel eas-cli firebase-tools oxlint @oxlint/binding-darwin-arm64 @typescript/native-preview"
+# Global npm CLIs are declared in a package.json manifest (edit versions there).
+NPM_GLOBALS_MANIFEST="$HOME/.config/npm-globals/package.json"
 export NVM_DIR="$HOME/.nvm"
 if [ -s "$NVM_DIR/nvm.sh" ]; then
   echo "==> Node (nvm)"
@@ -16,9 +16,12 @@ if [ -s "$NVM_DIR/nvm.sh" ]; then
   for v in $NODE_VERSIONS; do nvm install "$v" >/dev/null 2>&1 && echo "  node $v"; done
   nvm alias default "$NODE_DEFAULT" >/dev/null 2>&1
   nvm use default >/dev/null 2>&1
-  if [ -n "$NPM_GLOBALS" ]; then
-    echo "  npm -g: $NPM_GLOBALS"
-    npm install -g $NPM_GLOBALS >/dev/null 2>&1
+  if [ -f "$NPM_GLOBALS_MANIFEST" ] && command -v node >/dev/null 2>&1; then
+    pkgs=$(node -e 'const d=(require(process.argv[1]).dependencies)||{};console.log(Object.entries(d).map(function(e){return e[0]+"@"+e[1]}).join(" "))' "$NPM_GLOBALS_MANIFEST" 2>/dev/null)
+    if [ -n "$pkgs" ]; then
+      echo "  npm -g (from manifest): $pkgs"
+      npm install -g $pkgs >/dev/null 2>&1
+    fi
   fi
 else
   echo "==> nvm not found; skipping Node"
