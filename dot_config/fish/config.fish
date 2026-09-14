@@ -35,7 +35,7 @@ if status is-interactive
     pyenv init - fish | source
 
     # === Local environment file ===
-    test -f $HOME/.local/bin/env && source $HOME/.local/bin/env
+    test -f $HOME/.local/bin/env.fish && source $HOME/.local/bin/env.fish
 
     # === Aliases ===
     alias flutter "fvm flutter"
